@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="custom_web_login" inherit_id="web.login" name="Custom Login">
+        
+            <xpath expr="//form" position="inside">
+                <t t-set="alignment_of_form" t-value="request.env['ir.config_parameter'].sudo().get_param('advance_login_form.alignment')"></t>
+                <span t-attf-class="#{'align_advance_login_form_left' if alignment_of_form == 'left' else 'align_advance_login_form_right' if alignment_of_form == 'right' else 'align_advance_login_form_center'}" separator=" "></span>
+
+            </xpath>
+            <xpath expr="//form/input[@type='hidden']" position="before">
+                <div class="logos" >
+                    <div class="origo">
+                        <img src="/advance_login_form/static/src/img/b.jpg" />   
+                        
+                    </div>
+                    <div class="fayzen">
+                        <img src="/advance_login_form/static/src/img/a.jpg"  />   
+                    </div>
+                </div>
+            </xpath>
+
+
+
+
+            <xpath expr="//form[@class='oe_login_form']" position="attributes">
+                <!-- <attribute name="t-attf-style">background-color: #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.background_color') or ''}; color: #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or ''};</attribute> -->
+               <!-- set height of login form to 90vh and make它 responsive -->
+                <!-- <attribute name="t-attf-style">height: 54vh;background-color: rgba(0, 0, 0, 0.3);  margin-top: 0vh; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);</attribute> -->
+            </xpath>
+            
+            
+            <!-- Username label -->
+            <xpath expr="//div[@class='mb-3 field-login']/label[@for='login']" position="attributes">
+                <attribute name="class">form-label fw-bold</attribute>
+                <attribute name="style">font-size:15px;
+                    font-family:'Arial', sans-serif;
+                    letter-spacing:0.5px;
+                    color:#2a3e55;
+                </attribute>
+                <attribute name="t-esc">"Username"</attribute>
+            </xpath>
+
+
+
+
+            <!-- Username input -->
+<xpath expr="//div[@class='mb-3 field-login']/input[@name='login']" position="attributes">
+    <attribute name="placeholder">Enter Username</attribute>
+    <attribute name="t-attf-style">
+        width:100%;              /* full width */
+        font-size:16px;          /* larger font */
+        font-family: 'Arial', sans-serif;  /* better font */
+        font-weight:500;
+        border-radius:12px;      /* slightly bigger rounding */
+        border:2px solid #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or '#ccc'} !important;
+        padding:14px 12px;       /* more padding for bigger input */
+        transition:0.3s;
+        color: #333;
+        letter-spacing:0.5px;
+    </attribute>
+</xpath>
+
+<!-- Password label -->
+<xpath expr="//div[@class='mb-3'][2]/label[@for='password']" position="attributes">
+    <attribute name="class">form-label fw-bold</attribute>
+    <attribute name="style">
+        font-size:15px;
+        font-family:'Arial', sans-serif;
+        letter-spacing:0.5px;
+        color:#2a3e55;
+    </attribute>
+    <attribute name="t-esc">"Password"</attribute>
+</xpath>
+
+<!-- Password input -->
+<xpath expr="//input[@name='password']" position="attributes">
+    <attribute name="placeholder">Enter Password</attribute>
+    <attribute name="t-attf-style">
+        width:100%;
+        font-size:16px;
+        font-family: 'Arial', sans-serif;
+        font-weight:500;
+        border-radius:12px;
+        border:2px solid #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or '#ccc'} !important;
+        padding:14px 12px;
+        transition:0.3s;
+        color: #333;
+        letter-spacing:0.5px;
+    </attribute>
+</xpath>
+
+<!-- Login button -->
+<xpath expr="//button[@class='btn btn-primary']" position="attributes">
+    <attribute name="t-attf-style">
+        width:100%;
+        font-size:16px;
+        font-family:'Arial', sans-serif;
+        font-weight:600;
+        background-color:#2a3e55;
+        border:0px;
+        border-radius:12px;
+        padding:14px;
+        color:#fff;
+        transition:0.3s;
+        cursor:pointer;
+    </attribute>
+    <attribute name="t-attf-onmouseover">
+        this.style.transform='translateY(-3px)';
+        this.style.boxShadow='0 8px 20px #9d5426';
+    </attribute>
+    <attribute name="t-attf-onmouseout">
+        this.style.transform='translateY(0)';
+        this.style.boxShadow='none';
+    </attribute>
+</xpath>
+
+             <!-- Eye icon -->
+            <!-- <xpath expr="//input[@name='password']" position="after">
+                <span class="fa fa-eye-slash visibility_icon"
+                    id="passwordToggleIcon"
+                    style="position:absolute; right:15px; margin-top:-30px; cursor:pointer;"
+                    onclick="togglePasswordVisibility()"></span>
+            </xpath> -->
+
+            <xpath expr="//button[@type='submit']/following-sibling::div[@class='justify-content-between mt-2 d-flex small']" position="replace">
+            </xpath>
+
+        </template>
+            <!-- <xpath expr="//button[@name='redirect']" position="attributes">
+                <attribute name="t-attf-style"> font-weight:600; color: #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or ''} !important;</attribute>
+            </xpath> -->
+            <!-- the justify-content-between clase after //button[@type='submit'] is used to align the reset password link to the left and login button to the right -->
+            
+
+
+            <!-- desplay none of //div[@id='footer'] if login page is accessed and display it on other pages using t-if and t-else -->
+            <!-- <xpath expr="//div[@id='footer']" position="attributes">
+                <t t-if="'/web/login' in request.httprequest.url">
+                    <attribute name="style">display:none;</attribute>
+                </t>
+                <t t-else="">
+                    <attribute name="style">display:block;</attribute>
+                </t>
+            </xpath> -->
+            
+        
+
+        <!-- <template id="custom_login_layout" inherit_id="web.frontend_layout" name=" Custom Login Layout">
+              <xpath expr="//t[@t-out='0']/*[local-name()='div' and @id='wrapwrap']" position="replace">
+           </xpath>
+        </template> -->
+
+
+            <!-- <template id="footer_custom_test" inherit_id="website.layout" name="Footer" >
+                    <xpath expr="//div[@id='footer']" position="attributes"  >
+                         <attribute name="class" add="custom_footer"/>
+                    </xpath>
+            </template> -->
+
+                <!-- <xpath expr="//header" position="replace" >
+                     <t t-if="'/web/login' in request.httprequest.url">
+                        <t t-esc="request.httprequest.url"/> 
+                        <t t-set="no_header" t-value="True"/>
+                    </t>
+                    else call the original template
+                <t t-else="">
+                    <t t-call="website.layout"/>
+                </t>
+                </xpath> -->
+
+                <!-- Replace header only on login page  add sequence in xml file to load this template after the original header is loaded -->
+                
+                    <!-- <xpath expr="//header" position="attributes"  >
+                        <t t-if="'/web/login'  in request.httprequest.url">
+                            <attribute name="class" add="d-none"/>
+                        </t>
+                        <t t-else="">
+                            <attribute name="class" remove="d-none"/>
+                        </t>
+                    </xpath> -->
+               
+
+
+                <!-- <xpath expr="//header" position="attributes">
+                    <attribute name="style" t-if="'/web/login' in request.httprequest.url">display:none;</attribute>
+                    <attribute name="style" t-else="">display:block;</attribute>
+                </xpath> -->
+         
+                 
+
+                   
+                       
+                    <!-- <xpath expr="//footer[@id='bottom']" position="attributes"  >
+                        <t t-set="current_urll" t-value="request.httprequest.url"/>
+                         <attribute name="style"   t-if="'/web/login' not in current_urll">display:block;</attribute>
+                    </xpath>
+                    <xpath expr="//footer[@id='bottom']" position="attributes"  >
+                        <t t-set="current_url" t-value="request.httprequest.url"/>
+                            <attribute name="style"   t-if="'/web/login' not in current_url">display:none;</attribute>
+                    </xpath>
+                    <xpath expr="//footer[@id='bottom']" position="attributes"  >
+                        <t t-set="current_urll" t-value="request.httprequest.url"/>
+                         <attribute name="style"   t-if="'/web/login' not in current_urll">display:block;</attribute>
+                    </xpath> -->
+
+
+                    <!-- dynamically hide footer on login page using class and css -->
+                     <!-- <xpath expr="//footer[@id='bottom']" position="attributes">
+                            <t t-if="5 ==5">
+                                <attribute name="style">display:block;</attribute>
+                            </t>
+                        </xpath> -->
+                        
+
+                        <!-- </t> -->
+                        <!-- <t t-elseif="'/web/login' not in request.httprequest.url"> -->
+                           
+                        <!-- </t> -->
+
+                       <!-- <xpath expr="//div[hasclass('o_footer_copyright')]" position="attributes"  >
+                        <t t-if="'/web/login'  in request.httprequest.url">
+                            <attribute name="style" >visibility:hidden;</attribute>
+                        </t>
+                        <t t-else="">
+                            <attribute name="style" >visibility:hidden;</attribute>
+                        </t>
+                    </xpath> -->
+                    <!-- </template> -->
+               
+            
+
+             <!-- <t t-esc="request.env.company.sudo().name"/> -->
+                <!-- <t t-esc="request.env['ir.config_parameter'].sudo()"/> -->
+                <!-- <t t-esc="request.env.company.sudo().name"/> -->
+
+
+
+
+
+                <!-- <xpath expr="//div[@class='mb-3 field-login']/label[@for='login']" position="attributes">
+                <attribute name="class">form-label custom-bold-label</attribute>
+                <attribute name="t-esc">"Username"</attribute>
+            </xpath>
+            <xpath expr="//div[@class='mb-3 field-login']/input[@name='login']" position="attributes">
+                <attribute name="placeholder">Enter Username</attribute>
+                <attribute name="t-attf-style">border-color: #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or ''} !important;</attribute>
+                <attribute name="t-attf-onfocus">this.style.boxShadow = '0 0 0 0.2rem #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or ''}';</attribute>
+                <attribute name="t-attf-onblur">this.style.boxShadow = 'none';</attribute>
+            </xpath>
+            <xpath expr="//div[@class='mb-3'][2]/label[@for='password']" position="attributes">
+                <attribute name="class">form-label custom-bold-label</attribute>
+                <attribute name="t-esc">"Password"</attribute>
+            </xpath>
+
+            <xpath expr="//input[@name='password']" position="attributes">
+                <attribute name="placeholder">Enter Password</attribute>
+                <attribute name="t-attf-style">border-color: #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or ''} !important;</attribute>
+                <attribute name="t-attf-onfocus">this.style.boxShadow = '0 0 0 0.2rem #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or ''}';</attribute>
+                <attribute name="t-attf-onblur">this.style.boxShadow = 'none';</attribute>
+            </xpath>
+            <xpath expr="//input[@name='password']" position="after">
+                <span class="fa fa-eye-slash visibility_icon" id="passwordToggleIcon" onclick="togglePasswordVisibility()"></span>
+            </xpath>
+            <xpath expr="//button[@class='btn btn-primary']" position="attributes">
+                <attribute name="t-attf-style">background-color: #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.button_color') or ''}; border-color: #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.button_color') or ''}; color: #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or ''} </attribute>
+                <attribute name="t-attf-onmouseover">this.style.backgroundColor='#{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.button_hover_color') or ''}'; this.style.borderColor='#{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.button_hover_color') or ''}'; this.style.color='#{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or ''}';</attribute>
+                <attribute name="t-attf-onmouseout">this.style.backgroundColor='#{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.button_color') or ''}'; this.style.borderColor='#{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.button_color') or ''}'; this.style.color='#{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or ''}';</attribute>
+            </xpath>-->
+             <!-- <xpath expr="//button[@name='redirect']" position="attributes">
+
+                <attribute name="t-attf-style">color: #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or ''} !important;</attribute>
+            </xpath>
+            <xpath expr="//div[@class='justify-content-between mt-2 d-flex small']/a[@t-if='reset_password_enabled']" position="attributes">
+                <attribute name="t-attf-style">color: #{request.env['ir.config_parameter'].sudo().get_param('advance_login_form.text_color') or ''} </attribute>
+            </xpath> 
+             -->
+    </data>
+</odoo>

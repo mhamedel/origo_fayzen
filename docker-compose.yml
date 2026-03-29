@@ -1,0 +1,49 @@
+version: '3.1'
+services:
+  service_db:
+    image: postgres:12
+    user: root
+    environment:
+      - POSTGRES_USER=origo_fayzen
+      - POSTGRES_PASSWORD=P4#yH6@dV9xWq2F
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - odoo-network
+
+
+  service_odoo:
+    image: odoo:17
+    depends_on:
+      - service_db
+    ports:
+      - "80:8069"
+    tty: true
+    environment:
+      - HOST=service_db
+      - USER=origo_fayzen
+      - PASSWORD=P4#yH6@dV9xWq2F
+    command: --dev xml
+    volumes:
+      - ./mnt/extra-addons:/mnt/extra-addons
+      - ./etc:/etc/odoo
+      - ./odoo-data:/var/lib/odoo
+      - ./etc/odoo.conf:/etc/odoo/odoo.conf
+    networks:
+      - odoo-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=origo@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=P4#yH6@dV9xWq2F
+    ports:
+      - "8111:80"
+
+networks:
+  odoo-network:  
+
+
