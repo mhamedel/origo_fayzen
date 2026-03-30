@@ -2,11 +2,10 @@ version: '3.1'
 services:
   service_db:
     image: postgres:12
-    user: root
     environment:
-      - POSTGRES_USER=origo_fayzen
-      - POSTGRES_PASSWORD=P4#yH6@dV9xWq2F
-      - POSTGRES_DB=postgres
+      POSTGRES_USER: origo_fayzen
+      POSTGRES_PASSWORD: P4#yH6@dV9xWq2F
+      POSTGRES_DB: postgres
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
     ports:
@@ -14,19 +13,17 @@ services:
     networks:
       - odoo-network
 
-
   service_odoo:
     image: odoo:17
     depends_on:
       - service_db
+    environment:
+      DB_HOST: service_db
+      DB_PORT: 5432
+      DB_USER: origo_fayzen
+      DB_PASSWORD: P4#yH6@dV9xWq2F
     ports:
       - "8069:8069"
-    tty: true
-    environment:
-      - HOST=service_db
-      - USER=origo_fayzen
-      - PASSWORD=P4#yH6@dV9xWq2F
-    command: --dev xml
     volumes:
       - ./mnt/extra-addons:/mnt/extra-addons
       - ./etc:/etc/odoo
@@ -38,12 +35,12 @@ services:
   pgadmin:
     image: dpage/pgadmin4
     environment:
-      - PGADMIN_DEFAULT_EMAIL=origo@gmail.com
-      - PGADMIN_DEFAULT_PASSWORD=P4#yH6@dV9xWq2F
+      PGADMIN_DEFAULT_EMAIL: origo@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: P4#yH6@dV9xWq2F
     ports:
       - "8111:80"
+    networks:
+      - odoo-network
 
 networks:
-  odoo-network:  
-
-
+  odoo-network:
