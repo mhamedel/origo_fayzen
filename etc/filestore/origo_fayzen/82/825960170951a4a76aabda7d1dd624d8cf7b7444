@@ -1,0 +1,48 @@
+
+                .o_company_2_layout {
+                font-family: Lato;
+                &.o_report_layout_standard {
+                    h2 {
+                        color: #afafae;
+                    }
+                    #informations strong {
+                        color: #090a09;
+                    }
+                    #total strong{
+                        color: #afafae;
+                    }
+                    .totals_taxes_company_currency strong{
+                        color: #afafae;
+                    }
+                    table {
+                        thead {
+                            color: #090a09;
+                        }
+                    }
+                }
+            }
+                .o_company_1_layout {
+                font-family: Lato;
+                &.o_report_layout_striped {
+                   strong {
+                        color: #af907e;
+                    }
+                    h2 {
+                        color: #af1c06;
+                    }
+                    thead tr th {
+                        color: #af907e;
+                    }
+                }
+                .row > div > table,
+                div#total table, .totals_taxes_company_currency table {
+                    &:first-child,
+                    &:last-child,
+                    &.o_subtotal,
+                    &.o_total {
+                        strong {
+                            color: #af1c06;
+                        }
+                    }
+                }
+            }

@@ -1,3 +1,7 @@
 postgres_data/
-
-odoo_custom_login_inf/
+backup/
+images/
+*.log
+*.pyc
+__pycache__/
+.env
