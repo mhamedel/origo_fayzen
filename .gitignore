@@ -4,4 +4,6 @@ images/
 *.log
 *.pyc
 __pycache__/
-.env
+etc/
+etc/filestore/
+etc/sessions/

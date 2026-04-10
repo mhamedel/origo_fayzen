@@ -12,9 +12,17 @@ class PurchaseOrderLine(models.Model):
     qty_kg = fields.Float(
         string="Quantity (KG)",
         store=True,
-        required=True,
+        # required=True,
         
     )
+    
+    def _prepare_account_move_line(self, move=False):
+        vals = super()._prepare_account_move_line(move=move)
+
+        # Copy your custom field
+        vals['qty_kg'] = self.qty_kg
+
+        return vals
 
 
     # @api.depends('product_qty', 'price_unit', 'taxes_id', 'discount')
@@ -90,13 +98,13 @@ class PurchaseOrder(models.Model):
 
 
 #  same ting in salle order line and sale order, we need to update the tax totals to use the qty_kg field instead of product_qty. We will override the _compute_tax_totals method to prepare the tax totals based on the qty_kg field. This way, the tax totals will be computed correctly based on the quantity in kg. in sale order form view, the tax totals are computed based on the order lines, so we need to make sure that the tax totals are computed based on the qty_kg field instead of product_qty. We will override the _compute_tax_totals method to prepare the tax totals based on the qty_kg field. This way, the tax totals will be computed correctly based on the quantity in kg.
-class SaleOrder(models.Model):
+class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     qty_kg = fields.Float(
         string="Quantity (KG)",
         store=True,
-        required=True,
+        # required=True,
         
     )
 
@@ -118,6 +126,14 @@ class SaleOrder(models.Model):
     #             'price_tax': amount_tax,
     #             'price_total': amount_untaxed + amount_tax,
     #         })
+
+    def _prepare_invoice_line(self, **optional_values):
+        vals = super()._prepare_invoice_line(**optional_values)
+
+        # Copy your custom field
+        vals['qty_kg'] = self.qty_kg
+
+        return vals
 
     @api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id', 'qty_kg')
     def _compute_amount(self):
@@ -193,7 +209,7 @@ class AccountMoveLine(models.Model):
     qty_kg = fields.Float(
         string="Quantity (KG)",
         store=True,
-        required=True,
+        # required=True,
     )
 
     @api.depends('qty_kg', 'discount', 'price_unit', 'tax_ids', 'currency_id')
@@ -360,3 +376,19 @@ class AccountMoveLine(models.Model):
 #         self.ensure_one()
 #         logging.info("Getting custom invoice report for move %s", self.id)
 #         return 'colis_kg.custom_invoice_report'
+
+
+
+
+
+
+# class SaleAdvancePaymentInv(models.TransientModel):
+#     _inherit = 'sale.advance.payment.inv'
+
+#     def create_invoices(self):
+#         for wizard in self:
+#             logging.info("===== SALE ORDER IDS =====")
+#             logging.info("IDs: %s", wizard.sale_order_ids.ids)
+#             logging.info("Names: %s", wizard.sale_order_ids.mapped('name'))
+
+#         return super().create_invoices()
